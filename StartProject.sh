@@ -9,7 +9,7 @@ echo -e "\n"
 
 cd "$project_path"
 
-#python3 -m venv venv
+python3 -m venv venv
 
 source venv/bin/activate
 
@@ -19,7 +19,7 @@ echo -e "\n"
 
 
 if [ -z "$drf_version" ]; then
-#  pip install djangorestframework --upgrade
+  pip install djangorestframework --upgrade
   drf_version=$(pip show djangorestframework | grep Version | awk '{print $2}')
   django_version=$(pip show Django | grep Version | awk '{print $2}')
 else
@@ -40,14 +40,13 @@ fi
 
 create_django_compose_file
 touch api.env
-#create_django_service drf_version django_version
+create_django_service drf_version django_version
 
-#django-admin startproject "${project_name}"
+django-admin startproject "${project_name}"
 
-#mv "${project_name}"/manage.py .
-#mv "${project_name}"/"${project_name}"/* ./"${project_name}"
-#rm -r "${project_name}"/"${project_name}"
-#
+mv "${project_name}"/manage.py .
+mv "${project_name}"/"${project_name}"/* ./"${project_name}"
+rm -r "${project_name}"/"${project_name}"
 
 echo `pwd`
 
@@ -60,6 +59,6 @@ if [[ $confirm =~ ^[Yy]$ ]]; then
 fi
 
 
-#deactivate
+deactivate
 
 
