@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -e
+
+mongo mongodb:27017/admin <<EOF
+
+db = db.getSiblingDB('admin')
+db.auth('$MONGO_INITDB_ROOT_USERNAME', '$MONGO_INITDB_ROOT_PASSWORD')
+let users = db.getUsers();
+
+db = db.getSiblingDB('$MONGODB_DATABASE')
+db.createUser({
+    user: '$MONGODB_USER',
+    mechanisms:['$MECHANISM'],
+    pwd: '$MONGODB_PASSWORD',
+    roles: [
+      {
+        role: 'root',
+        db: 'admin',
+    },
+  ],
+});
+
+let users = db.getUsers();
+
+db = db.getSiblingDB('$MONGODB_WAREHOUSE_DATABASE')
+db.createUser({
+    user: '$MONGODB_WAREHOUSE_USER',
+    mechanisms:['$MECHANISM'],
+    pwd: '$MONGODB_WAREHOUSE_PASSWORD',
+    roles: [
+      {
+        role: 'root',
+        db: 'admin',
+    },
+  ],
+});
+
+EOF

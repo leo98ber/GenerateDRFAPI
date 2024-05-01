@@ -2,11 +2,16 @@
 source ./AddComposeFile.sh
 source django/AddDjangoService.sh
 source celery/AddCeleryService.sh
+source mongo/AddMongoService.sh
+source postgres/AddPostgresService.sh
+
 
 echo "Ingrese la ubicación donde desea crear el proyecto:"
 read project_path
 echo -e "\n"
+current_path=`pwd`
 
+#
 cd "$project_path"
 
 python3 -m venv venv
@@ -26,6 +31,9 @@ else
   pip install "djangorestframework==$drf_version"
   django_version=$(pip show Django | grep Version | awk '{print $2}')
 fi
+#
+
+cp ${current_path}/.gitignore ${project_path}
 
 read -p "Ingrese el nombre del proyecto (por defecto: my_project): " project_name
 project_name=${project_name:-my_project}
@@ -39,6 +47,8 @@ if [[ ! "$project_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
 fi
 
 create_django_compose_file
+
+
 touch api.env
 create_django_service drf_version django_version
 
@@ -56,6 +66,22 @@ echo -e "\n"
 
 if [[ $confirm =~ ^[Yy]$ ]]; then
   create_celery_service project_name
+fi
+
+
+read -p "Desea agregar mongo db? (y/N) " -r confirm
+echo -e "\n"
+
+if [[ $confirm =~ ^[Yy]$ ]]; then
+  create_mongo_service project_path current_path
+fi
+
+
+read -p "Desea agregar postgres db? (y/N) " -r confirm
+echo -e "\n"
+
+if [[ $confirm =~ ^[Yy]$ ]]; then
+  create_postgres_service project_path current_path
 fi
 
 
