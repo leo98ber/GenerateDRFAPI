@@ -29,7 +29,7 @@ function create_postgres_compose_service() {
       - ./postgresql/start:/start
 
     env_file:
-      - postgres/mariadb_cfg.env
+      - postgres/postgres_cfg.env
     networks:
       - postgres_net
 
