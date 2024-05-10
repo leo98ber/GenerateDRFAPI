@@ -4,7 +4,7 @@ source django/AddDjangoService.sh
 source celery/AddCeleryService.sh
 source mongo/AddMongoService.sh
 source postgres/AddPostgresService.sh
-
+source apache/AddApacheService.sh
 
 echo "Ingrese la ubicación donde desea crear el proyecto:"
 read project_path
@@ -61,28 +61,53 @@ rm -r "${project_name}"/"${project_name}"
 echo `pwd`
 
 
-read -p "Desea agregar celery? (y/N) " -r confirm
+read -p "Desea agregar celery? (y/N) " -r confirm_celery
 echo -e "\n"
 
-if [[ $confirm =~ ^[Yy]$ ]]; then
+if [[ $confirm_celery =~ ^[Yy]$ ]]; then
   create_celery_service project_name
 fi
 
 
-read -p "Desea agregar mongo db? (y/N) " -r confirm
+read -p "Desea agregar mongo db? (y/N) " -r confirm_mongo
 echo -e "\n"
 
-if [[ $confirm =~ ^[Yy]$ ]]; then
+if [[ $confirm_mongo =~ ^[Yy]$ ]]; then
   create_mongo_service project_path current_path
 fi
 
 
-read -p "Desea agregar postgres db? (y/N) " -r confirm
+read -p "Desea agregar postgres db? (y/N) " -r confirm_postgre
 echo -e "\n"
 
-if [[ $confirm =~ ^[Yy]$ ]]; then
+if [[ $confirm_postgre =~ ^[Yy]$ ]]; then
   create_postgres_service project_path current_path
 fi
+
+
+read -p "Desea agregar apache? (y/N) " -r confirm_apache
+echo -e "\n"
+
+
+if [[ $confirm_apache =~ ^[Yy]$ ]]; then
+  create_apache_service project_path current_path
+fi
+
+echo "networks:" >> docker-compose.yml
+echo "  django_net:" >> docker-compose.yml
+echo "    driver: bridge" >> docker-compose.yml
+
+if [[ $confirm_mongo =~ ^[Yy]$ ]]; then
+  echo "  mongo_net:" >> docker-compose.yml
+  echo "    driver: bridge" >> docker-compose.yml
+fi
+
+if [[ $confirm_postgre =~ ^[Yy]$ ]]; then
+  echo "  postgres_net:" >> docker-compose.yml
+  echo "    driver: bridge" >> docker-compose.yml
+fi
+
+
 
 
 deactivate

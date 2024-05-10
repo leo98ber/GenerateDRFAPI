@@ -21,7 +21,8 @@ DATABASES_CREDENTIALS = [DB_HOST_DICT, DB_PORT_DICT, DB_NAME_DICT, DB_USER_DICT,
 
 for each in DATABASES_CREDENTIALS:
     if not each.get('value'):
-        logger.critical(f'{each.get('name')} must be defined in os environment')
+        credential_name = each.get('name')
+        logger.critical(f'{credential_name} must be defined in os environment')
         exit(-1)
 
 DATABASES['default'] = {
@@ -34,11 +35,6 @@ DATABASES['default'] = {
     }
 
   " >> ${project_name}/settings.py
-
-
-
-
-
 
 }
 

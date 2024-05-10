@@ -1,0 +1,17 @@
+#!/bin/bash
+
+rm /etc/apache2/ports.conf
+
+  cat <<EOF >/etc/apache2/ports.conf
+#Listen 80
+Listen 9088
+#<IfModule ssl_module>
+#Listen 443
+#</IfModule>
+#<IfModule mod_gnutls.c>
+#Listen 443
+#</IfModule>
+EOF
+
+
+echo "-------------------- Apache2 installation and configuration completed! --------------------"

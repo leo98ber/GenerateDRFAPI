@@ -8,9 +8,9 @@ function create_postgres_compose_service() {
     build:
       context: .
       dockerfile: ./postgres/Dockerfile
-    container_name: postgres_server
+    container_name: postgres_server_${project_name}
     ports:
-      - 9432:5432
+      - 5432:5432
     networks:
       - postgres_net
     volumes:
@@ -23,11 +23,10 @@ function create_postgres_compose_service() {
   postgres_create_user:
 
     image: postgres
-    container_name: postgres_client
+    container_name: postgres_client_${project_name}
 
     volumes:
       - ./postgresql/start:/start
-
     env_file:
       - postgres/postgres_cfg.env
     networks:

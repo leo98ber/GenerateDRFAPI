@@ -7,13 +7,13 @@ function create_mongo_compose_service() {
   mongodb:
     image: mongo
     restart: always
-    container_name: mongoserver
+    container_name: mongoserver_${project_name}
     volumes:
-      - /var/mongodata/db:/data/db
-      - /var/mongodata/mongod.conf:/etc/mongod.conf
+      - /var/${project_name}/mongodata/db:/data/db
+      - /var/${project_name}/mongodata/mongod.conf:/etc/mongod.conf
       - ./mongo/backup:/bash_backup
     ports:
-      - 27018:27017
+      - 27017:27017
 
     env_file:
       - mongo/mongo_cfg.env
@@ -26,7 +26,7 @@ function create_mongo_compose_service() {
       context: .
       dockerfile: ./mongo/Dockerfile
 
-    container_name: container_to_create_mongo_user
+    container_name: container_to_create_mongo_user_${project_name}
 
     env_file:
       - mongo/mongo_cfg.env

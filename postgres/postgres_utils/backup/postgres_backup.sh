@@ -29,6 +29,11 @@ read -p "Introduce el nombre de usuario de la base de datos a restaurar: " targe
 read -p "Introduce la contraseña de la base de datos a restaurar: " target_password
 read -p "Introduce el nombre de la base de datos a restaurar: " db_target_name
 
-bash mongo_restore_backup.sh "$backup_dir" mysql_server "3306" "$db_target_name" "$target_username" "$target_password"
+read -p "Ingrese el nombre del contenedor de docker de mongo" server_name
+server_name=${project_name:-my_project}
+echo -e "\n"
+
+
+bash mongo_restore_backup.sh "$backup_dir" "${server_name}" 5432 "$db_target_name" "$target_username" "$target_password"
 
 echo "Restauración completada en la base de datos '$db_target_name'."

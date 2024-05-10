@@ -6,12 +6,12 @@ function create_celery_compose_file() {
   echo "
   redis:
     image: redis:latest
-    container_name: redis_service
+    container_name: redis_service_${project_name}
     ports:
       - '6379:6379'
 
   celery-worker:
-    container_name: celery_worker_service
+    container_name: celery_worker_service_${project_name}
     build:
       context: ./django
       dockerfile: Dockerfile
