@@ -34,7 +34,24 @@ DATABASES['default'] = {
         'PORT': DB_PORT,
     }
 
-  " >> ${project_name}/settings.py
+  " >> ${project_name}/settings/__init__.py
 
+  echo "
+DB_HOST=postgres_server
+DB_PORT=6740
+DB_NAME=${project_name}_development_db
+DB_USER=db_user
+DB_PASSWORD=Tre:dingF<yingPuls&Tricky
+
+" >> django/development/dev.env
+
+  echo "
+DB_HOST=postgres_server
+DB_PORT=6740
+DB_NAME=${project_name}_production_db
+DB_USER=db_user
+DB_PASSWORD=Tre:dingF<yingPuls&Tricky
+
+" >> django/production/api.env
 }
 

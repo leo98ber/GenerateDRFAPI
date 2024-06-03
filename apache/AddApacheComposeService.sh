@@ -7,6 +7,7 @@ function create_apache_compose_file() {
   apache2-container:
     build: ./apache
     image: ubuntu/apache2:2.4-22.04_beta
+    restart: always
     container_name: apache2_container_${project_name}
     command: ./setup.sh
     environment:
@@ -21,7 +22,7 @@ function create_apache_compose_file() {
       - /var/${project_name}/log/apache2/:/var/log/apache2/api
       - /etc/${project_name}/apache2/sites-available/:/etc/apache2/sites-available/
 
-  " >> ./docker-compose.yml
+  " >> ./docker-compose-production.yml
 
   echo "Apache compose service added successfully!"
 

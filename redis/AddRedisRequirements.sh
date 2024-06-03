@@ -2,11 +2,13 @@
 
 django_version=$1
 
-function create_mongo_requirements() {
+function create_redis_requirements() {
 
 declare -A libraries=(
-  ["mongoengine"]="mongoengine"
-  ["django-rest-framework-mongoengine"]="django-rest-framework-mongoengine"
+  ["redis"]="redis"
+  ["django-redis"]="django-redis"
+  ["tornado"]="tornado"
+
 )
 
 for library_name in "${!libraries[@]}"; do
@@ -21,6 +23,7 @@ for library_name in "${!libraries[@]}"; do
   fi
 done
 
-echo "Mongo requirements added successfully!"
+
+echo "Redis requirements added successfully!"
 echo -e "\n"
 }

@@ -15,7 +15,21 @@ if not (MONGODB_URL and MONGODB_USER and MONGODB_PASSW):
     exit(-1)
 
 mongoengine.connect(host=MONGODB_URL, username=MONGODB_USER, password=MONGODB_PASSW)
-  " >> ${project_name}/settings.py
+  " >> ${project_name}/settings/__init__.py
+
+  echo "
+MONGODB_URL=mongodb://mongodb:27017/test_database
+MONGODB_USER=db_user
+MONGODB_PASSW=7a89_jaJA1239
+
+" >> django/development/dev.env
+
+  echo "
+MONGODB_URL=mongodb://mongodb:27017/test_database
+MONGODB_USER=db_user
+MONGODB_PASSW=7a89_jaJA1239
+
+" >> django/production/api.env
 
 }
 

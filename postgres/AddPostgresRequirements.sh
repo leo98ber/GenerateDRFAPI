@@ -14,9 +14,9 @@ for library_name in "${!libraries[@]}"; do
   echo -e "\n"
 
   if [ -z "$library_version" ]; then
-    echo "${libraries[$library_name]}" >> django/requirements.txt
+    echo "${libraries[$library_name]}" >> requirements/base.txt
   else
-    echo "${libraries[$library_name]}==$library_version" >> django/requirements.txt
+    echo "${libraries[$library_name]}==$library_version" >> requirements/base.txt
   fi
 done
 

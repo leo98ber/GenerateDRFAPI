@@ -631,3 +631,7 @@ pip-selfcheck.json
 *jpeg
 
 *pem
+
+/staticfiles/drf-yasg
+/staticfiles/admin
+/staticfiles/rest_framework

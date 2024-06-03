@@ -2,7 +2,7 @@
 
 rm /etc/apache2/ports.conf
 
-  cat <<EOF >/etc/apache2/ports.conf
+  cat << >/etc/apache2/ports.conf
 #Listen 80
 Listen 9088
 #<IfModule ssl_module>

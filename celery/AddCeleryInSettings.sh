@@ -14,7 +14,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 CELERY_CONFIG_MODULE = '${project_name}.celery_cfg'
-  " >> ${project_name}/settings.py
+  " >> ${project_name}/settings/__init__.py
 
 }
 

@@ -5,13 +5,13 @@ source celery/AddCeleryService.sh
 source mongo/AddMongoService.sh
 source postgres/AddPostgresService.sh
 source apache/AddApacheService.sh
+source redis/AddRedisService.sh
 
 echo "Ingrese la ubicación donde desea crear el proyecto:"
 read project_path
 echo -e "\n"
 current_path=`pwd`
 
-#
 cd "$project_path"
 
 python3 -m venv venv
@@ -22,7 +22,6 @@ echo "Ingrese la versión de Django REST Framework que desea instalar:"
 read drf_version
 echo -e "\n"
 
-
 if [ -z "$drf_version" ]; then
   pip install djangorestframework --upgrade
   drf_version=$(pip show djangorestframework | grep Version | awk '{print $2}')
@@ -31,9 +30,9 @@ else
   pip install "djangorestframework==$drf_version"
   django_version=$(pip show Django | grep Version | awk '{print $2}')
 fi
-#
 
 cp ${current_path}/.gitignore ${project_path}
+#cp ${current_path}/api.env ${project_path}
 
 read -p "Ingrese el nombre del proyecto (por defecto: my_project): " project_name
 project_name=${project_name:-my_project}
@@ -48,10 +47,6 @@ fi
 
 create_django_compose_file
 
-
-touch api.env
-create_django_service drf_version django_version
-
 django-admin startproject "${project_name}"
 
 mv "${project_name}"/manage.py .
@@ -60,6 +55,14 @@ rm -r "${project_name}"/"${project_name}"
 
 echo `pwd`
 
+create_django_service drf_version django_version project_name
+
+read -p "Desea agregar redis? (y/N) " -r confirm_redis
+echo -e "\n"
+
+if [[ $confirm_redis =~ ^[Yy]$ ]]; then
+  create_redis_service project_name
+fi
 
 read -p "Desea agregar celery? (y/N) " -r confirm_celery
 echo -e "\n"
@@ -88,28 +91,19 @@ fi
 read -p "Desea agregar apache? (y/N) " -r confirm_apache
 echo -e "\n"
 
-
 if [[ $confirm_apache =~ ^[Yy]$ ]]; then
   create_apache_service project_path current_path
 fi
 
-echo "networks:" >> docker-compose.yml
-echo "  django_net:" >> docker-compose.yml
-echo "    driver: bridge" >> docker-compose.yml
+echo "networks:" >> docker-compose-production.yml
+echo "  django_net:" >> docker-compose-production.yml
+echo "    driver: bridge" >> docker-compose-production.yml
 
-if [[ $confirm_mongo =~ ^[Yy]$ ]]; then
-  echo "  mongo_net:" >> docker-compose.yml
-  echo "    driver: bridge" >> docker-compose.yml
-fi
-
-if [[ $confirm_postgre =~ ^[Yy]$ ]]; then
-  echo "  postgres_net:" >> docker-compose.yml
-  echo "    driver: bridge" >> docker-compose.yml
-fi
-
-
-
+echo "networks:" >> docker-compose-development.yml
+echo "  django_net:" >> docker-compose-development.yml
+echo "    driver: bridge" >> docker-compose-development.yml
 
 deactivate
+
 
 
